@@ -104,19 +104,27 @@ function fullScreen(element) {
 
 window.onload = function() {
   imgs = document.getElementById('slideshow').children;
-  currentPic = 0;
-  imgs[currentPic].style.webkitAnimation = 'fadey '+interval+'ms';
-  imgs[currentPic].style.animation = 'fadey '+interval+'ms';
-  var infiniteLoop = setInterval(function(){
-    imgs[currentPic].removeAttribute('style');
-    if ( currentPic == imgs.length - 1) { currentPic = 0; } else { currentPic++; }
-    while ((imgs[currentPic] == 'undefined'|| imgs[currentPic].height == 0 )) {
-      if ( currentPic == imgs.length - 1) { currentPic = 0; }
-      else { currentPic++; }
+
+
+  for (var i = imgs.length - 1; i >= 0; --i) {
+    if (imgs[i] == 'undefined' || imgs[i].height == 0) {
+      imgs[i].remove();
     }
+  }
+
+  if (imgs.length > 1) {
+    currentPic = 0;
     imgs[currentPic].style.webkitAnimation = 'fadey '+interval+'ms';
     imgs[currentPic].style.animation = 'fadey '+interval+'ms';
-  }, interval);
+
+    var infiniteLoop = setInterval(function(){
+      imgs[currentPic].removeAttribute('style');
+      if ( currentPic == imgs.length - 1) { currentPic = 0; } else { currentPic++; }
+      imgs[currentPic].style.webkitAnimation = 'fadey '+interval+'ms';
+      imgs[currentPic].style.animation = 'fadey '+interval+'ms';
+    }, interval);
+  }
+  else {imgs[0].style.opacity = 1;}
 }
 
 </script>
